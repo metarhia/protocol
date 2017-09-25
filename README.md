@@ -1,6 +1,7 @@
 # Metarhia Protocol
 
-[![Build Status][travis-badge]][travis-url]
+[![Travis Build Status][travis-badge]][travis-url]
+[![AppVeyor Build Status][appveyor-badge]][appveyor-url]
 
 ## Contributing
 
@@ -31,5 +32,7 @@ MIT. See the [LICENSE][] file for details.
 
 [Conventional Commits]: https://conventionalcommits.org
 [LICENSE]: LICENSE
+[appveyor-badge]: https://ci.appveyor.com/api/projects/status/wuffvoyxtplk1hvd?svg=true
+[appveyor-url]: https://ci.appveyor.com/project/metarhia/protocol
 [travis-badge]: https://travis-ci.org/metarhia/protocol.svg?branch=master
 [travis-url]: https://travis-ci.org/metarhia/protocol
