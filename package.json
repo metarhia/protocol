@@ -1,0 +1,40 @@
+{
+  "name": "mhp",
+  "version": "1.0.0-pre",
+  "description": "Metarhia Protocol",
+  "main": "mhp.js",
+  "scripts": {
+    "commitmsg": "commitlint -e",
+    "lint": "npm run -s lint-js && npm run -s lint-md",
+    "lint-js": "eslint .",
+    "lint-md": "remark -q .",
+    "precommit": "npm test",
+    "release": "standard-version",
+    "test": "npm run -s lint",
+    "test-ci": "npm test && ./scripts/lint-commit-ci.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metarhia/protocol.git"
+  },
+  "keywords": [
+    "metarhia",
+    "protocol"
+  ],
+  "author": "Timur Shemsedinov <timur.shemsedinov@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/metarhia/protocol/issues"
+  },
+  "homepage": "https://github.com/metarhia/protocol#readme",
+  "devDependencies": {
+    "@commitlint/cli": "^3.2.0",
+    "@commitlint/config-angular": "^3.1.1",
+    "eslint": "^4.7.2",
+    "eslint-config-metarhia": "^1.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "husky": "^0.14.3",
+    "remark-cli": "^4.0.0",
+    "remark-preset-lint-metarhia": "^1.0.1"
+  }
+}
