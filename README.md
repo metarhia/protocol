@@ -31,5 +31,5 @@ MIT. See the [LICENSE][] file for details.
 
 [Conventional Commits]: https://conventionalcommits.org
 [LICENSE]: LICENSE
-[travis-badge]: https://travis-ci.org/metarhia/protocol?branch=master
+[travis-badge]: https://travis-ci.org/metarhia/protocol.svg?branch=master
 [travis-url]: https://travis-ci.org/metarhia/protocol
