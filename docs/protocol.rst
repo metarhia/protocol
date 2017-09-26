@@ -103,11 +103,11 @@ Daniel J. Berstein, that have undergone scrupulous analysis in multiple
 scientific papers and are under constantly growing adoption now.  As some
 examples:
 
- * Google has used their implementation of these algorithms for TLS traffic
-   between Google Chrome on Android and Google's servers since 2014.
+* Google has used their implementation of these algorithms for TLS traffic
+  between Google Chrome on Android and Google's servers since 2014.
 
- * `TLS 1.3`_ draft has ``TLS_CHACHA20_POLY1305_SHA256`` cipher suite, and
-   recommends implementing it.
+* `TLS 1.3`_ draft has ``TLS_CHACHA20_POLY1305_SHA256`` cipher suite, and
+  recommends implementing it.
 
 IETF versions of ChaCha20, ChaCha20-Poly1305 and ChaCha20-Poly1305 AEAD
 specified in `RFC 7539`_ modify Berstein's algorithm by changing 64-bit nonce
@@ -130,8 +130,8 @@ Upon creation of a ``Session`` structure instance, the following fields
 relevant to the symmetric encryption facilities (with one of them not being
 limited to this scope only) are initialized:
 
- - ``secret`` — a 32-byte unsigned integer value
- - ``nonce`` — a 12-byte unsigned integer value
+- ``secret`` — a 32-byte unsigned integer value
+- ``nonce`` — a 12-byte unsigned integer value
 
 ``nonce`` value MUST be initialized with random data from a cryptographically
 secure source.
