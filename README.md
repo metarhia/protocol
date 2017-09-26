@@ -36,6 +36,6 @@ MIT. See the [LICENSE][] file for details.
 [appveyor-badge]: https://ci.appveyor.com/api/projects/status/wuffvoyxtplk1hvd?svg=true
 [appveyor-url]: https://ci.appveyor.com/project/metarhia/protocol
 [readthedocs-badge]: https://readthedocs.org/projects/mhp/badge/?version=latest
-[readthedocs-url]: http://mhp.readthedocs.io/en/latest/
+[readthedocs-url]: https://mhp.readthedocs.io/en/latest/
 [travis-badge]: https://travis-ci.org/metarhia/protocol.svg?branch=master
 [travis-url]: https://travis-ci.org/metarhia/protocol
