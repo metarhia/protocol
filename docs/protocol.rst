@@ -84,7 +84,7 @@ MAY support other transports, if their implementors find it reasonable.
 .. _WebSocket: https://tools.ietf.org/html/rfc6455
 
 4. "Fast" UDP Events Encryption (ignore this for now)
--------------------------------------------------------
+-----------------------------------------------------
 
 .. note::
 
