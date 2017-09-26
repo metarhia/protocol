@@ -1,0 +1,12 @@
+{% extends '!layout.html' %}
+
+{%- block extrahead %}
+<script>
+  if (
+    window.location.protocol === 'http:' &&
+    window.location.hostname === 'mhp.readthedocs.io'
+  ) {
+    window.location.protocol === 'https:';
+  }
+</script>
+{% endblock %}
