@@ -6,7 +6,7 @@
     window.location.protocol === 'http:' &&
     window.location.hostname === 'mhp.readthedocs.io'
   ) {
-    window.location.protocol === 'https:';
+    window.location.href = 'https' + window.location.href.slice('http'.length);
   }
 </script>
 {% endblock %}
