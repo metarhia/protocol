@@ -2,6 +2,7 @@
 
 [![Travis Build Status][travis-badge]][travis-url]
 [![AppVeyor Build Status][appveyor-badge]][appveyor-url]
+[![Documentation Status][readthedocs-badge]][readthedocs-url]
 
 ## Contributing
 
@@ -34,5 +35,7 @@ MIT. See the [LICENSE][] file for details.
 [LICENSE]: LICENSE
 [appveyor-badge]: https://ci.appveyor.com/api/projects/status/wuffvoyxtplk1hvd?svg=true
 [appveyor-url]: https://ci.appveyor.com/project/metarhia/protocol
+[readthedocs-badge]: https://readthedocs.org/projects/mhp/badge/?version=latest
+[readthedocs-url]: http://mhp.readthedocs.io/en/latest/
 [travis-badge]: https://travis-ci.org/metarhia/protocol.svg?branch=master
 [travis-url]: https://travis-ci.org/metarhia/protocol
