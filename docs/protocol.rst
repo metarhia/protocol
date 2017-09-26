@@ -16,9 +16,11 @@ for different kinds of data.
 2. Terms
 --------
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be
-interpreted as described in `RFC 2119`_.
+.. important::
+
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+   "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
+   document are to be interpreted as described in `RFC 2119`_.
 
 **Transport** refers to a network protocol or another communication mechanism
 that provides full-duplex communication channel with ordered and reliable data
@@ -85,11 +87,11 @@ MAY support other transports, if their implementors find it reasonable.
 4. "Fast" UDP Events Encryption (ignore this for now)
 -------------------------------------------------------
 
-*Note*:
+.. note::
 
-    I drafted this section while I was in context so as to not forget about all
-    I thought about this; the things this would be needed for aren't quite
-    there yet ;)
+   I drafted this section while I was in context so as to not forget about all
+   I thought about this; the things this would be needed for aren't quite there
+   yet ;)
 
 4.1. AEAD Algorithm Requirements and Motivation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -149,12 +151,14 @@ The server shares this value with the client during the handshake, as described
 in section ???.  When the client receives this value, it MUST initialize the
 ``secret`` field of its ``Session`` structure with the received value.
 
-*Note*: This procedure MAY be conducted over a connection that is not secured
-using TLS or other method of asymmetric encryption and server authentication in
-a local or trusted environment, or on a single machine during testing, but one
-SHOULD NOT do so over a publicly accessible network.  Security may be
-compromised in such case.  Only connections secured with TLS (or an alternative
-method) SHOULD be used with MHP in public networks.
+.. DANGER::
+
+   This procedure MAY be conducted over a connection that is not secured using
+   TLS or other method of asymmetric encryption and server authentication in a
+   local or trusted environment, or on a single machine during testing, but one
+   SHOULD NOT do so over a publicly accessible network.  Security may be
+   compromised in such case.  Only connections secured with TLS (or an
+   alternative method) SHOULD be used with MHP in public networks.
 
 When symmetric encryption of a chunk is requested, Metarhia Protocol
 implementation MUST follow the next algorithm:
