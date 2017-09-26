@@ -4,6 +4,16 @@
 [![AppVeyor Build Status][appveyor-badge]][appveyor-url]
 [![Documentation Status][readthedocs-badge]][readthedocs-url]
 
+Metarhia Protocol (``mhp``) is a protocol for RPC, event streams and two-way
+asynchronous data transfer that supports multiplexing and is capable of
+handling network errors gracefully.
+
+[![NPM Status][npm-badge]][npm-url]
+
+## Documentation
+
+Check out our documentation at <https://mhp.readthedocs.io>.
+
 ## Contributing
 
 Please adhere to [Conventional Commits][] styleguide for commit messages (`npm
@@ -35,6 +45,8 @@ MIT. See the [LICENSE][] file for details.
 [LICENSE]: LICENSE
 [appveyor-badge]: https://ci.appveyor.com/api/projects/status/wuffvoyxtplk1hvd?svg=true
 [appveyor-url]: https://ci.appveyor.com/project/metarhia/protocol
+[npm-badge]: https://nodei.co/npm/mhp.png
+[npm-url]: https://npmjs.com/package/mhp
 [readthedocs-badge]: https://readthedocs.org/projects/mhp/badge/?version=latest
 [readthedocs-url]: https://mhp.readthedocs.io/en/latest/
 [travis-badge]: https://travis-ci.org/metarhia/protocol.svg?branch=master
