@@ -2,13 +2,13 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS      =
-SPHINXBUILD     = python -msphinx
-SPHINXAUTOBUILD = python -msphinx_autobuild
+SPHINXOPTS      ?=
+SPHINXBUILD     ?= python -msphinx
+SPHINXAUTOBUILD ?= python -msphinx_autobuild
+SPHINXPORT      ?= 8000
 SPHINXPROJ      = MetarhiaProtocol
 SOURCEDIR       = .
 BUILDDIR        = _build
-SPHINXPORT      = 8000
 
 # Put it first so that "make" without argument is like "make help".
 help:
