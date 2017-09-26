@@ -7,26 +7,37 @@ REM Command file for Sphinx documentation
 if "%SPHINXBUILD%" == "" (
 	set SPHINXBUILD=python -msphinx
 )
+if "%SPHINXAUTOBUILD%" == "" (
+	set SPHINXAUTOBUILD=python -msphinx_autobuild
+)
 set SOURCEDIR=.
 set BUILDDIR=_build
 set SPHINXPROJ=MetarhiaProtocol
 
 if "%1" == "" goto help
+if "%1" == "livehtml" goto livehtml
 
 %SPHINXBUILD% >NUL 2>NUL
 if errorlevel 9009 (
 	echo.
-	echo.The Sphinx module was not found. Make sure you have Sphinx installed,
-	echo.then set the SPHINXBUILD environment variable to point to the full
-	echo.path of the 'sphinx-build' executable. Alternatively you may add the
-	echo.Sphinx directory to PATH.
-	echo.
-	echo.If you don't have Sphinx installed, grab it from
-	echo.http://sphinx-doc.org/
+	echo.The Sphinx module was not found. Did you forget to run
+	echo."npm run docs-install-deps" or activate a virtual environment?
 	exit /b 1
 )
 
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS%
+goto end
+
+:livehtml
+%SPHINXAUTOBUILD% >NUL 2>NUL
+if errorlevel 9009 (
+	echo.
+	echo.The sphinx-autobuild module was not found. Did you forget to run
+	echo."npm run docs-install-deps" or activate a virtual environment?
+	exit /b 1
+)
+
+%SPHINXAUTOBUILD% %SOURCEDIR% %BUILDDIR%\html %SPHINXOPTS%
 goto end
 
 :help
