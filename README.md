@@ -8,6 +8,8 @@ Metarhia Protocol (``mhp``) is a protocol for RPC, event streams and two-way
 asynchronous data transfer that supports multiplexing and is capable of
 handling network errors gracefully.
 
+This project is covered by a [Code of Conduct](CODE_OF_CONDUCT.md).
+
 [![NPM Status][npm-badge]][npm-url]
 
 ## Documentation
