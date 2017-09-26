@@ -8,13 +8,15 @@ SPHINXAUTOBUILD = python -msphinx_autobuild
 SPHINXPROJ      = MetarhiaProtocol
 SOURCEDIR       = .
 BUILDDIR        = _build
+SPHINXPORT      = 8000
 
 # Put it first so that "make" without argument is like "make help".
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 livehtml:
-	@$(SPHINXAUTOBUILD) "$(SOURCEDIR)" "$(BUILDDIR)/html" $(SPHINXOPTS) $(O)
+	$(SPHINXAUTOBUILD) "$(SOURCEDIR)" "$(BUILDDIR)/html" \
+		-p $(SPHINXPORT) $(SPHINXOPTS) $(O)
 
 .PHONY: help livehtml Makefile
 

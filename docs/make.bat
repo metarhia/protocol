@@ -10,6 +10,9 @@ if "%SPHINXBUILD%" == "" (
 if "%SPHINXAUTOBUILD%" == "" (
 	set SPHINXAUTOBUILD=python -msphinx_autobuild
 )
+if "%SPHINXPORT%" == "" (
+	set SPHINXPORT=8000
+)
 set SOURCEDIR=.
 set BUILDDIR=_build
 set SPHINXPROJ=MetarhiaProtocol
@@ -37,7 +40,7 @@ if errorlevel 9009 (
 	exit /b 1
 )
 
-%SPHINXAUTOBUILD% %SOURCEDIR% %BUILDDIR%\html %SPHINXOPTS%
+%SPHINXAUTOBUILD% %SOURCEDIR% %BUILDDIR%\html -p %SPHINXPORT% %SPHINXOPTS%
 goto end
 
 :help
