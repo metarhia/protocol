@@ -1,17 +1,18 @@
 Protocol Specification
 ======================
 
+.. |MHP| replace:: Metarhia Protocol
+
 1. Introduction
 ---------------
 
-Metarhia Protocol (denoted by MHP for brevity) is an RPC, session and binary
-data transfer protocol that provides two-way asynchronous data transfer,
-multiplexing several RPC channels, event streams and binary data transmissions
-over one socket, and graceful handling of short-time connection losses due to
-network errors with full and transparent session restoration.  It also provides
-authentication mechanisms, offers data compression and supports multiple
-serialization formats with each of those being more appropriate or efficient
-for different kinds of data.
+|MHP| is an RPC, session and binary data transfer protocol that provides
+two-way asynchronous data transfer, multiplexing several RPC channels, event
+streams and binary data transmissions over one socket, and graceful handling of
+short-time connection losses due to network errors with full and transparent
+session restoration.  It also provides authentication mechanisms, offers data
+compression and supports multiple serialization formats with each of those
+being more appropriate or efficient for different kinds of data.
 
 2. Terms
 --------
@@ -24,22 +25,20 @@ for different kinds of data.
 
 **Transport** refers to a network protocol or another communication mechanism
 that provides full-duplex communication channel with ordered and reliable data
-flow, to which MHP delegates transmission of raw data streams.
+flow, to which |MHP| delegates transmission of raw data streams.
 
 **Transport connection** refers to an underlying transport socket, connection
-or other transport-specific communication channel, over which a MHP connection
-transmits data.
+or other transport-specific communication channel, over which a |MHP|
+connection transmits data.
 
-**MHP connection** (or just **connection** without additional adjectives)
-refers to an abstraction over an instance of transport connection managed by a
-Metaria Protocol implementation, that hides implementation details of the
-transport and provides the functionality of Metarhia Protocol to user
-applications.  MHP connections and transport connections have one-to-one
-correspondence.
+**Metarhia Protocol connection** (or just **connection** without additional
+adjectives) refers to an abstraction over an instance of transport connection
+managed by a |MHP| implementation, that hides implementation details of the
+transport and provides the functionality of |MHP| to user applications.  |MHP|
+connections and transport connections have one-to-one correspondence.
 
-**Chunk** refers to a data unit of Metarhia Protocol consisting of headers and
-optional payload.  All data transmitted via Metarhia Protocol are split into
-chunks.
+**Chunk** refers to a data unit of |MHP| consisting of headers and optional
+payload.  All data transmitted via |MHP| are split into chunks.
 
 **Channel** refers to a set of chunks transmitted over the same connection,
 identified among other ones using a number that is unique throughout the
@@ -51,10 +50,10 @@ small number of chunks (only one chunk in most cases, with the maximal amount
 specified in section ???) that are buffered in memory until the message is
 received, and then processed as a single unit by an application.
 
-**Stream** refers to a channel that is characterized by arbitrarily long lifetime
-(up to existing as long as the connection exists) and indefinite number of
-chunks, which may be processed by an application one by one immediately after
-they become available.
+**Stream** refers to a channel that is characterized by arbitrarily long
+lifetime (up to existing as long as the connection exists) and indefinite
+number of chunks, which may be processed by an application one by one
+immediately after they become available.
 
 **RPC** is an acronym for remote procedure calls.
 
@@ -65,16 +64,16 @@ they become available.
 3. Transport Support
 --------------------
 
-Metarhia Protocol implementations primarily targeted to be used in server-side
-environments MUST support `TCP`_, `TLS`_, `WebSocket`_ and WebSocket tunneled
-over TLS protocols as transports.  MHP implementations primarily targeted to be
-used in server-side environments MAY support additional transports, for
-example, Unix domain sockets.
+|MHP| implementations primarily targeted to be used in server-side environments
+MUST support `TCP`_, `TLS`_, `WebSocket`_ and WebSocket tunneled over TLS
+protocols as transports.  |MHP| implementations primarily targeted to be used
+in server-side environments MAY support additional transports, for example,
+Unix domain sockets.
 
-Metarhia Protocol implementations designed specifically to be used in
-client-side environments SHOULD support TCP and TLS transports.  In those cases
-where it is not possible (for example, in implementations for Web browsers),
-such implementations MUST support WebSocket and WebSocket tunneled over TLS as
+|MHP| implementations designed specifically to be used in client-side
+environments SHOULD support TCP and TLS transports.  In those cases where it is
+not possible (for example, in implementations for Web browsers), such
+implementations MUST support WebSocket and WebSocket tunneled over TLS as
 transports, and MAY support them otherwise.  In other words, at least one of
 "TCP and TLS" or "WebSocket and WebSocket over TLS" pairs of transports MUST be
 supported, with preference towards TCP and TLS.  Client-side implementations
@@ -158,10 +157,10 @@ in section ???.  When the client receives this value, it MUST initialize the
    local or trusted environment, or on a single machine during testing, but one
    SHOULD NOT do so over a publicly accessible network.  Security may be
    compromised in such case.  Only connections secured with TLS (or an
-   alternative method) SHOULD be used with MHP in public networks.
+   alternative method) SHOULD be used with |MHP| in public networks.
 
-When symmetric encryption of a chunk is requested, Metarhia Protocol
-implementation MUST follow the next algorithm:
+When symmetric encryption of a chunk is requested, |MHP| implementation MUST
+follow the next algorithm:
 
 1. **Let** *secret* := **Get** *secret* from *Session*.
 2. **Let** *nonce* := **Get** *nonce* from *Session*.
@@ -171,8 +170,8 @@ implementation MUST follow the next algorithm:
 5. **Set** *nonce* in *Session* := *nonce* + 2.
 6. **Output** := *result*.
 
-When symmetric decryption of a chunk is requested, Metarhia Protocol
-implementation MUST follow the next algorithm:
+When symmetric decryption of a chunk is requested, |MHP| implementation MUST
+follow the next algorithm:
 
 1. **Let** *secret* := **Get** *secret* from *Session*.
 2. **Let** *data* := **Input**.
