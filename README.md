@@ -3,7 +3,6 @@
 [![Travis Build Status][travis-badge]][travis-url]
 [![AppVeyor Build Status][appveyor-badge]][appveyor-url]
 [![Documentation Status][readthedocs-badge]][readthedocs-url]
-[![Greenkeeper Status][greenkeeper-badge]][greenkeeper-url]
 
 Metarhia Protocol (``mhp``) is a protocol for RPC, event streams and two-way
 asynchronous data transfer that supports multiplexing and is capable of
@@ -48,8 +47,6 @@ MIT. See the [LICENSE][] file for details.
 [LICENSE]: LICENSE
 [appveyor-badge]: https://ci.appveyor.com/api/projects/status/wuffvoyxtplk1hvd?svg=true
 [appveyor-url]: https://ci.appveyor.com/project/metarhia/protocol
-[greenkeeper-badge]: https://badges.greenkeeper.io/metarhia/protocol.svg
-[greenkeeper-url]: https://greenkeeper.io
 [npm-badge]: https://nodei.co/npm/mhp.png
 [npm-url]: https://npmjs.com/package/mhp
 [readthedocs-badge]: https://readthedocs.org/projects/mhp/badge/?version=latest
