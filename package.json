@@ -5,7 +5,7 @@
   "main": "mhp.js",
   "scripts": {
     "commitmsg": "commitlint -e",
-    "docs-install-deps": "python -m pip install -r docs/requirements.txt",
+    "docs-install-deps": "python -m pip install -r requirements-for-docs.pip",
     "docs-build": "cd docs && make html",
     "docs-watch": "cd docs && make livehtml",
     "lint": "npm run -s lint-js && npm run -s lint-md",
