@@ -1,5 +1,7 @@
 # Metarhia Protocol
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/metarhia/protocol.svg)](https://greenkeeper.io/)
+
 [![Travis Build Status][travis-badge]][travis-url]
 [![AppVeyor Build Status][appveyor-badge]][appveyor-url]
 [![Documentation Status][readthedocs-badge]][readthedocs-url]
