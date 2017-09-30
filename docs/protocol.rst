@@ -159,7 +159,7 @@ in section ???.  When the client receives this value, it MUST initialize the
    compromised in such case.  Only connections secured with TLS (or an
    alternative method) SHOULD be used with |MHP| in public networks.
 
-When symmetric encryption of a chunk is requested, |MHP| implementation MUST
+When symmetric encryption of a chunk is requested, |MHP| implementations MUST
 follow the next algorithm:
 
 1. **Let** *secret* := **Get** *secret* from *Session*.
@@ -170,7 +170,7 @@ follow the next algorithm:
 5. **Set** *nonce* in *Session* := *nonce* + 2.
 6. **Output** := *result*.
 
-When symmetric decryption of a chunk is requested, |MHP| implementation MUST
+When symmetric decryption of a chunk is requested, |MHP| implementations MUST
 follow the next algorithm:
 
 1. **Let** *secret* := **Get** *secret* from *Session*.
