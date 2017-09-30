@@ -3,8 +3,8 @@ Protocol Specification
 
 .. |MHP| replace:: Metarhia Protocol
 
-1. Introduction
----------------
+Introduction
+------------
 
 |MHP| is an RPC, session and binary data transfer protocol that provides
 two-way asynchronous data transfer, multiplexing several RPC channels, event
@@ -14,8 +14,8 @@ session restoration.  It also provides authentication mechanisms, offers data
 compression and supports multiple serialization formats with each of those
 being more appropriate or efficient for different kinds of data.
 
-2. Terms
---------
+Terms
+-----
 
 .. important::
 
@@ -61,8 +61,8 @@ immediately after they become available.
 
 .. _RFC 2119: https://tools.ietf.org/html/rfc2119
 
-3. Transport Support
---------------------
+Transport Support
+-----------------
 
 |MHP| implementations primarily targeted to be used in server-side environments
 MUST support `TCP`_, `TLS`_, `WebSocket`_ and WebSocket tunneled over TLS
@@ -83,8 +83,8 @@ MAY support other transports, if their implementors find it reasonable.
 .. _TLS: https://tools.ietf.org/html/rfc5246
 .. _WebSocket: https://tools.ietf.org/html/rfc6455
 
-4. "Fast" UDP Events Encryption (ignore this for now)
------------------------------------------------------
+"Fast" UDP Events Encryption (ignore this for now)
+--------------------------------------------------
 
 .. note::
 
@@ -92,8 +92,8 @@ MAY support other transports, if their implementors find it reasonable.
    I thought about this; the things this would be needed for aren't quite there
    yet ;)
 
-4.1. AEAD Algorithm Requirements and Motivation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AEAD Algorithm Requirements and Motivation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 For chunks that use symmetric encryption (for example, "fast" UDP events), AEAD
 based on the `ChaCha20`_ stream cipher and `Poly1305`_ message authentication
@@ -124,8 +124,8 @@ messages, provided that nonces are never reused.
 .. _RFC 7539: https://tools.ietf.org/html/rfc7539
 .. _TLS 1.3: https://tools.ietf.org/html/draft-ietf-tls-tls13-21
 
-4.2. Symmetric Encryption Implementation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Symmetric Encryption Implementation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Upon creation of a ``Session`` structure instance, the following fields
 relevant to the symmetric encryption facilities (with one of them not being
