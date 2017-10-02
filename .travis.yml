@@ -27,4 +27,4 @@ script:
       (cd crates/mhp-node && cargo clippy)
       (cd crates/mhp-napi && cargo clippy)
     fi
-  - npm run -s test-ci
+  - npm test
