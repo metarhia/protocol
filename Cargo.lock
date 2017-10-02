@@ -1,6 +1,9 @@
 [root]
 name = "mhp-node"
 version = "0.1.0"
+dependencies = [
+ "mhp-napi-sys 0.1.0",
+]
 
 [[package]]
 name = "aho-corasick"

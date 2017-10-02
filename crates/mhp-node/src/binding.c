@@ -1,18 +1,13 @@
 #include <node_api.h>
 
-extern void mhp_initialize(void);
+#define MHP_FUNCTIONS_MAP(V)                                                  \
+  V(initialize, mhp_initialize)
 
-napi_value initialize(napi_env env, napi_callback_info info) {
-  mhp_initialize();
+#define V(name, func)                                                         \
+  extern napi_value func(napi_env env, napi_callback_info info);
 
-  napi_value result;
-  napi_get_undefined(env, &result);
-
-  return result;
-}
-
-#define MHP_PROPERTY_MAP(V)                                                   \
-  V(initialize, initialize)
+  MHP_FUNCTIONS_MAP(V);
+#undef V
 
 #ifdef __GNUC__
 #define UNLIKELY(expr) __builtin_expect(!!(expr), 0)
@@ -31,7 +26,7 @@ napi_value init(napi_env env, napi_value exports) {
   { #name, NULL, func, NULL, NULL, NULL, napi_default, NULL },
 
   napi_property_descriptor descriptors[] = {
-    MHP_PROPERTY_MAP(V)
+    MHP_FUNCTIONS_MAP(V)
   };
 #undef V
 
