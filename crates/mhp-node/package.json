@@ -1,0 +1,13 @@
+{
+  "name": "mhp-node",
+  "version": "0.0.0",
+  "scripts": {
+    "build-debug": "node-gyp rebuild --debug && npm run -s copy-debug",
+    "build-release": "node-gyp rebuild && npm run -s copy-release",
+    "copy-debug": "cp ./build/Debug/mhp.node ../../mhp.node",
+    "copy-release": "cp ./build/Release/mhp.node ../../mhp.node",
+    "build": "npm run -s build-release"
+  },
+  "gypfile": true,
+  "private": true
+}

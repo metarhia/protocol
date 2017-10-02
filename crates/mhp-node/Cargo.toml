@@ -3,4 +3,7 @@ name = "mhp-node"
 version = "0.1.0"
 authors = ["Alexey Orlenko <eaglexrlnk@gmail.com>"]
 
+[lib]
+crate-type = ["staticlib"]
+
 [dependencies]

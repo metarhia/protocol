@@ -4,6 +4,8 @@
   "description": "Metarhia Protocol",
   "main": "mhp.js",
   "scripts": {
+    "build-addon": "cargo build --release && npm run -s build-addon-only",
+    "build-addon-only": "cd crates/mhp-node && npm run -s build",
     "commitmsg": "commitlint -e",
     "docs-install-deps": "python -m pip install -r requirements-for-docs.pip",
     "docs-build": "cd docs && make html",
@@ -11,6 +13,7 @@
     "lint": "npm run -s lint-js && npm run -s lint-md",
     "lint-js": "eslint .",
     "lint-md": "remark -q .",
+    "install": "npm run -s build-addon",
     "precommit": "npm test",
     "release": "standard-version",
     "test": "npm run -s lint",
