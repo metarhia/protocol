@@ -1,4 +1,7 @@
 [workspace]
 members = [
+  "crates/mhp",
+  "crates/mhp-napi",
   "crates/mhp-napi-sys",
+  "crates/mhp-node",
 ]
