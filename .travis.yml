@@ -9,11 +9,7 @@ os:
   - linux
 # - osx
 
-cache:
-  - cargo: true
-  - directories:
-    - target
-    - ~/.cargo/bin
+cache: cargo
 
 install:
   - nvm install $NODEJS_VERSION
