@@ -13,6 +13,8 @@ dist: trusty
 sudo: false
 osx_image: xcode8.3
 
+cache: cargo
+
 install:
   - nvm install $NODEJS_VERSION
   - |
