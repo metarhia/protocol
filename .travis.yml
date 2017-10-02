@@ -1,18 +1,13 @@
 language: rust
 
-matrix:
-  include:
-    - os: linux
-      rust: stable
-      env: NODEJS_VERSION=8
+rust: nightly
 
-    - os: linux
-      rust: nightly
-      env: NODEJS_VERSION=8
+env:
+  - NODEJS_VERSION=8
 
-#    - os: osx
-#      rust: stable
-#      env: NODEJS_VERSION=8
+os:
+  - linux
+# - osx
 
 dist: trusty
 sudo: false
@@ -20,8 +15,18 @@ osx_image: xcode8.3
 
 install:
   - nvm install $NODEJS_VERSION
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      cargo install clippy
+    fi
   - npm install
 
 script:
   - cargo test
+  - |
+    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+      (cd crates/mhp && cargo clippy)
+      (cd crates/mhp-node && cargo clippy)
+      (cd crates/mhp-napi && cargo clippy)
+    fi
   - npm run -s test-ci
