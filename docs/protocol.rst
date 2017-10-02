@@ -93,6 +93,9 @@ Protocol Handshake
 | ``Payload``                        |
 +------------------------------------+
 
+Currently, the only possible value of ``Encryption`` is ``0`` and the payload
+is empty.
+
 Channel Preamble
 ^^^^^^^^^^^^^^^^
 
