@@ -1,15 +1,27 @@
-language: node_js
+language: rust
 
-node_js:
-  - 8
+matrix:
+  include:
+    - os: linux
+      rust: stable
+      env: NODEJS_VERSION=8
 
-os:
-  - linux
-# - osx
+    - os: linux
+      rust: nightly
+      env: NODEJS_VERSION=8
+
+#    - os: osx
+#      rust: stable
+#      env: NODEJS_VERSION=8
 
 dist: trusty
 sudo: false
 osx_image: xcode8.3
 
+install:
+  - nvm install $NODEJS_VERSION
+  - npm install
+
 script:
+  - cargo test
   - npm run -s test-ci
