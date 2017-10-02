@@ -21,7 +21,7 @@
     return NULL;                                                              \
   }
 
-napi_value init(napi_env env, napi_value exports) {
+napi_value mhp_init_bindings(napi_env env, napi_value exports) {
 #define V(name, func)                                                         \
   { #name, NULL, func, NULL, NULL, NULL, napi_default, NULL },
 
@@ -41,4 +41,4 @@ napi_value init(napi_env env, napi_value exports) {
   return exports;
 }
 
-NAPI_MODULE(NODE_GYP_MODULE_NAME, init)
+NAPI_MODULE(NODE_GYP_MODULE_NAME, mhp_init_bindings)
