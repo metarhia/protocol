@@ -13,18 +13,9 @@ cache: cargo
 
 install:
   - nvm install $NODEJS_VERSION
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      cargo install clippy --force
-    fi
   - npm install
 
 script:
   - cargo test
-  - |
-    if [ "$TRAVIS_OS_NAME" == "linux" ]; then
-      (cd crates/mhp && cargo clippy)
-      (cd crates/mhp-node && cargo clippy)
-      (cd crates/mhp-napi && cargo clippy)
-    fi
+  - ./scripts/lint-clippy-ci.sh
   - npm test
