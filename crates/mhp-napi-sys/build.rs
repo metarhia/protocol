@@ -28,6 +28,7 @@ fn main() {
 
     let bindings = bindgen::Builder::default()
         .header(header_path)
+        .hide_type("max_align_t")
         .generate()
         .unwrap();
 
