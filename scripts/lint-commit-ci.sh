@@ -10,6 +10,7 @@ if [[ $TRAVIS_PULL_REQUEST_SLUG != "" && \
   git fetch "$TRAVIS_PULL_REQUEST_SLUG"
   TO="$TRAVIS_PULL_REQUEST_SLUG/$TRAVIS_PULL_REQUEST_BRANCH"
 else
+  git remote set-branches origin master && git fetch
   TO=$TRAVIS_COMMIT
 fi
 
