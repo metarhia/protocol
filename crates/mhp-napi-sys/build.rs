@@ -1,11 +1,16 @@
 extern crate bindgen;
+
+#[cfg(unix)]
 extern crate which;
 
 use std::env;
 use std::path::PathBuf;
-use std::process::Command;
 
+#[cfg(unix)]
 use which::which;
+
+#[cfg(windows)]
+use std::process::Command;
 
 #[cfg(unix)]
 fn find_node_api_header() -> Result<String, &'static str> {
