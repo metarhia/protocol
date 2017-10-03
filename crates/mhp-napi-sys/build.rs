@@ -48,7 +48,7 @@ fn find_node_api_header() -> Result<String, &'static str> {
     ))?;
 
     let home_dir =
-        env::var("OUT_DIR").or(Err("Could not find user directory"))?;
+        env::var("USERPROFILE").or(Err("Could not find user directory"))?;
 
     let mut path = PathBuf::from(home_dir);
     path.push(".node_gyp");
