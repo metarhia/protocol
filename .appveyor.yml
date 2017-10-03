@@ -19,6 +19,7 @@ install:
   - appveyor DownloadFile https://releases.llvm.org/5.0.0/LLVM-5.0.0-win64.exe -FileName llvm-install.exe
   - start /wait llvm-install.exe /S /D=C:\"Program Files\LLVM"
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
+  - set RUST_BACKTRACE=1
 
 build: off
 

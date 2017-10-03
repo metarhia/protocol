@@ -3,7 +3,10 @@ language: rust
 rust: nightly
 
 env:
-  - NODEJS_VERSION=8
+  global:
+    - RUST_BACKTRACE=1
+  matrix:
+    - NODEJS_VERSION=8
 
 os:
   - linux
