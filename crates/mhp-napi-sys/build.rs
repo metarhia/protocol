@@ -43,24 +43,25 @@ fn find_node_api_header() -> Result<String, &'static str> {
         .or(Err("Could not run node --version"))?
         .stdout;
 
-    let node_version = String::from_utf8(node_version_output)
-        .or(Err("Could not parse node --version output"))?
-        .trim();
+    let node_version = String::from_utf8(node_version_output).or(Err(
+        "Could not parse node --version output",
+    ))?;
 
     let home_dir =
         env::var("OUT_DIR").or(Err("Could not find user directory"))?;
 
-    let path = PathBuf::from(home_dir)
-        .as_path()
-        .join(".node-gyp")
-        .join(node_version)
-        .join("include")
-        .join("node")
-        .join("node_api.h")
-        .to_str()
-        .ok_or("Could not convert path to string")?;
+    let mut path = PathBuf::from(home_dir);
+    path.push(".node_gyp");
+    path.push(node_version.trim());
+    path.push("include");
+    path.push("node");
+    path.push("node_api.h");
 
-    Ok(path.to_owned())
+    Ok(
+        path.to_str()
+            .ok_or("Could not convert path to string")?
+            .to_owned(),
+    )
 }
 
 fn main() {
