@@ -7,4 +7,4 @@ authors = ["Alexey Orlenko <eaglexrlnk@gmail.com>"]
 crate-type = ["staticlib"]
 
 [dependencies]
-mhp-napi-sys = { path = "../mhp-napi-sys" }
+mhp-napi = { path = "../mhp-napi" }

@@ -1,7 +1,7 @@
-extern crate mhp_napi_sys;
+extern crate mhp_napi;
 
-use mhp_napi_sys::{napi_callback_info, napi_env, napi_value,
-                   napi_get_undefined};
+use mhp_napi::sys::{napi_callback_info, napi_env, napi_value,
+                    napi_get_undefined};
 
 use std::mem;
 

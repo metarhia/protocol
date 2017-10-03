@@ -2,7 +2,7 @@
 name = "mhp-node"
 version = "0.1.0"
 dependencies = [
- "mhp-napi-sys 0.1.0",
+ "mhp-napi 0.1.0",
 ]
 
 [[package]]
@@ -170,6 +170,9 @@ version = "0.1.0"
 [[package]]
 name = "mhp-napi"
 version = "0.1.0"
+dependencies = [
+ "mhp-napi-sys 0.1.0",
+]
 
 [[package]]
 name = "mhp-napi-sys"
