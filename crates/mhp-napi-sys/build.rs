@@ -35,20 +35,20 @@ fn find_node_api_header() -> Result<String, &'static str> {
     Command::new("cmd")
         .args(&["/C", "node-gyp", "install"])
         .output()
-        .or_else(Err("Could not run node-gyp install"))?;
+        .or(Err("Could not run node-gyp install"))?;
 
     let node_version_output = Command::new("cmd")
         .args(&["/C", "node", "--version"])
         .output()
-        .or_else(Err("Could not run node --version"))?
+        .or(Err("Could not run node --version"))?
         .stdout;
 
     let node_version = String::from_utf8(node_version_output)
-        .or_else(Err("Could not parse node --version output"))?
+        .or(Err("Could not parse node --version output"))?
         .trim();
 
     let home_dir =
-        env::var("OUT_DIR").or_else("Could not find user directory")?;
+        env::var("OUT_DIR").or(Err("Could not find user directory"))?;
 
     let path = PathBuf::from(home_dir)
         .as_path()
