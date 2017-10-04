@@ -12,3 +12,5 @@ docs/_build/
 /target/
 /crates/mhp-node/build/
 /mhp.node
+
+*.bk
