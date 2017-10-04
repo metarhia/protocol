@@ -44,42 +44,18 @@ impl Display for NapiError {
         write!(formatter, "{} ", self.description())?;
 
         match *self {
-            NapiError::InvalidArg(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::ObjectExpected(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::StringExpected(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::NameExpected(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::FunctionExpected(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::NumberExpected(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::BooleanExpected(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::ArrayExpected(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::GenericFailure(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::PendingException(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::Cancelled(ref message) => {
-                write!(formatter, "({})", message)
-            }
-            NapiError::EscapeCalledTwice(ref message) => {
-                write!(formatter, "({})", message)
-            }
+            NapiError::InvalidArg(ref message) |
+            NapiError::ObjectExpected(ref message) |
+            NapiError::StringExpected(ref message) |
+            NapiError::NameExpected(ref message) |
+            NapiError::FunctionExpected(ref message) |
+            NapiError::NumberExpected(ref message) |
+            NapiError::BooleanExpected(ref message) |
+            NapiError::ArrayExpected(ref message) |
+            NapiError::GenericFailure(ref message) |
+            NapiError::PendingException(ref message) |
+            NapiError::Cancelled(ref message) |
+            NapiError::EscapeCalledTwice(ref message) |
             NapiError::UnknownError(ref message) => {
                 write!(formatter, "({})", message)
             }
