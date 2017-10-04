@@ -47,8 +47,9 @@ fn find_node_api_header() -> Result<String, &'static str> {
         "Could not parse node --version output",
     ))?;
 
-    let home_dir =
-        env::var("USERPROFILE").or(Err("Could not find user directory"))?;
+    let home_dir = env::var("USERPROFILE").or(
+        Err("Could not find user directory"),
+    )?;
 
     let mut path = PathBuf::from(home_dir);
     path.push(".node_gyp");
