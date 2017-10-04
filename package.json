@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/metarhia/protocol#readme",
   "devDependencies": {
-    "@commitlint/cli": "^3.2.0",
+    "@commitlint/cli": "^4.0.0",
     "@commitlint/config-angular": "^3.1.1",
     "eslint": "^4.8.0",
     "eslint-config-metarhia": "^1.0.1",
