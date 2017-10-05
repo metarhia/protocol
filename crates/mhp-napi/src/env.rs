@@ -56,23 +56,19 @@ impl NapiEnv {
             }
         }
 
-        if is_exception_pending {
-            unsafe {
-                let mut exception: sys::napi_value = mem::uninitialized();
+        if !is_exception_pending {
+            return None;
+        }
 
-                sys::napi_get_and_clear_last_exception(
-                    self.env,
-                    &mut exception,
-                );
+        unsafe {
+            let mut exception: sys::napi_value = mem::uninitialized();
+            sys::napi_get_and_clear_last_exception(self.env, &mut exception);
 
-                if exception.is_null() {
-                    None
-                } else {
-                    Some(exception)
-                }
+            if exception.is_null() {
+                None
+            } else {
+                Some(exception)
             }
-        } else {
-            None
         }
     }
 }
