@@ -36,48 +36,6 @@ impl NapiEnv {
             }
         }
 
-        match status {
-            sys::napi_status::napi_invalid_arg => Some(NapiError::InvalidArg(
-                error_message,
-            )),
-            sys::napi_status::napi_object_expected => Some(
-                NapiError::ObjectExpected(error_message),
-            ),
-            sys::napi_status::napi_string_expected => Some(
-                NapiError::StringExpected(error_message),
-            ),
-            sys::napi_status::napi_name_expected => Some(
-                NapiError::NameExpected(
-                    error_message,
-                ),
-            ),
-            sys::napi_status::napi_function_expected => Some(
-                NapiError::FunctionExpected(error_message),
-            ),
-            sys::napi_status::napi_number_expected => Some(
-                NapiError::NumberExpected(error_message),
-            ),
-            sys::napi_status::napi_boolean_expected => Some(
-                NapiError::BooleanExpected(error_message),
-            ),
-            sys::napi_status::napi_array_expected => Some(
-                NapiError::ArrayExpected(
-                    error_message,
-                ),
-            ),
-            sys::napi_status::napi_generic_failure => Some(
-                NapiError::GenericFailure(error_message),
-            ),
-            sys::napi_status::napi_pending_exception => Some(
-                NapiError::PendingException(error_message),
-            ),
-            sys::napi_status::napi_cancelled => Some(NapiError::Cancelled(
-                error_message,
-            )),
-            sys::napi_status::napi_escape_called_twice => Some(
-                NapiError::EscapeCalledTwice(error_message),
-            ),
-            _ => Some(NapiError::UnknownError(error_message)),
-        }
+        Some(NapiError::new(status, error_message))
     }
 }

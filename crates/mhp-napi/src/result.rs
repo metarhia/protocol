@@ -2,6 +2,8 @@ use std::error::Error;
 use std::fmt;
 use std::fmt::Display;
 
+use sys::napi_status;
+
 #[derive(Clone, Debug)]
 pub enum NapiError {
     InvalidArg(String),
@@ -16,7 +18,6 @@ pub enum NapiError {
     PendingException(String),
     Cancelled(String),
     EscapeCalledTwice(String),
-    UnknownError(String),
 }
 
 impl Error for NapiError {
@@ -34,7 +35,6 @@ impl Error for NapiError {
             NapiError::PendingException(_) => "NapiError: pending exception",
             NapiError::Cancelled(_) => "NapiError: cancelled",
             NapiError::EscapeCalledTwice(_) => "NapiError: escape called twice",
-            NapiError::UnknownError(_) => "NapiError: unknown error",
         }
     }
 }
@@ -55,9 +55,52 @@ impl Display for NapiError {
             NapiError::GenericFailure(ref message) |
             NapiError::PendingException(ref message) |
             NapiError::Cancelled(ref message) |
-            NapiError::EscapeCalledTwice(ref message) |
-            NapiError::UnknownError(ref message) => {
+            NapiError::EscapeCalledTwice(ref message) => {
                 write!(formatter, "({})", message)
+            }
+        }
+    }
+}
+
+impl NapiError {
+    pub fn new(status: napi_status, message: String) -> Self {
+        match status {
+            napi_status::napi_invalid_arg => NapiError::InvalidArg(message),
+            napi_status::napi_object_expected => NapiError::ObjectExpected(
+                message,
+            ),
+            napi_status::napi_string_expected => NapiError::StringExpected(
+                message,
+            ),
+            napi_status::napi_name_expected => NapiError::NameExpected(message),
+            napi_status::napi_function_expected => {
+                NapiError::FunctionExpected(message)
+            }
+            napi_status::napi_number_expected => NapiError::NumberExpected(
+                message,
+            ),
+            napi_status::napi_boolean_expected => NapiError::BooleanExpected(
+                message,
+            ),
+            napi_status::napi_array_expected => NapiError::ArrayExpected(
+                message,
+            ),
+            napi_status::napi_generic_failure => NapiError::GenericFailure(
+                message,
+            ),
+            napi_status::napi_pending_exception => {
+                NapiError::PendingException(message)
+            }
+            napi_status::napi_cancelled => NapiError::Cancelled(message),
+            napi_status::napi_escape_called_twice => {
+                NapiError::EscapeCalledTwice(message)
+            }
+            _ => {
+                // Both situations should never happen, so just panic.
+                panic!(
+                    "Either the JavaScript VM returned an unknown status code, \
+                    or NapiError::new was called with napi_status::napi_ok"
+                );
             }
         }
     }
