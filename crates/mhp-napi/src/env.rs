@@ -2,7 +2,7 @@ use std::ffi::CStr;
 use std::mem;
 
 use sys;
-use result::{NapiError, NapiResult};
+use result::{NapiError, NapiErrorKind, NapiResult};
 
 #[derive(Clone)]
 pub struct NapiEnv {
@@ -21,24 +21,24 @@ impl NapiEnv {
             return Ok(());
         }
 
-        let mut error_message = String::new();
-
-        unsafe {
+        let error_message = unsafe {
             let mut extended_error_info = mem::uninitialized();
             sys::napi_get_last_error_info(self.env, &mut extended_error_info);
 
             let raw_error_message = (*extended_error_info).error_message;
             if raw_error_message.is_null() {
-                error_message.push_str("(error message is nullptr)");
+                None
             } else {
                 let c_string = CStr::from_ptr(raw_error_message);
-                error_message = c_string.to_string_lossy().into_owned();
+                Some(c_string.to_string_lossy().into_owned())
             }
-        }
+        };
 
-        let exception = self.get_pending_exception_for_status(status);
-
-        Err(NapiError::new(status, error_message, exception))
+        Err(NapiError {
+            kind: NapiErrorKind::from_napi_status(status),
+            message: error_message,
+            exception: self.get_pending_exception_for_status(status),
+        })
     }
 
     fn get_pending_exception_for_status(
