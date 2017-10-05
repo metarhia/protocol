@@ -2,22 +2,28 @@ use std::error::Error;
 use std::fmt;
 use std::fmt::Display;
 
-use sys::napi_status;
+use sys::{napi_status, napi_value};
+
+#[derive(Clone, Debug)]
+pub struct NapiErrorData {
+    pub message: String,
+    pub exception: Option<napi_value>,
+}
 
 #[derive(Clone, Debug)]
 pub enum NapiError {
-    InvalidArg(String),
-    ObjectExpected(String),
-    StringExpected(String),
-    NameExpected(String),
-    FunctionExpected(String),
-    NumberExpected(String),
-    BooleanExpected(String),
-    ArrayExpected(String),
-    GenericFailure(String),
-    PendingException(String),
-    Cancelled(String),
-    EscapeCalledTwice(String),
+    InvalidArg(NapiErrorData),
+    ObjectExpected(NapiErrorData),
+    StringExpected(NapiErrorData),
+    NameExpected(NapiErrorData),
+    FunctionExpected(NapiErrorData),
+    NumberExpected(NapiErrorData),
+    BooleanExpected(NapiErrorData),
+    ArrayExpected(NapiErrorData),
+    GenericFailure(NapiErrorData),
+    PendingException(NapiErrorData),
+    Cancelled(NapiErrorData),
+    EscapeCalledTwice(NapiErrorData),
 }
 
 impl Error for NapiError {
@@ -44,56 +50,70 @@ impl Display for NapiError {
         write!(formatter, "{} ", self.description())?;
 
         match *self {
-            NapiError::InvalidArg(ref message) |
-            NapiError::ObjectExpected(ref message) |
-            NapiError::StringExpected(ref message) |
-            NapiError::NameExpected(ref message) |
-            NapiError::FunctionExpected(ref message) |
-            NapiError::NumberExpected(ref message) |
-            NapiError::BooleanExpected(ref message) |
-            NapiError::ArrayExpected(ref message) |
-            NapiError::GenericFailure(ref message) |
-            NapiError::PendingException(ref message) |
-            NapiError::Cancelled(ref message) |
-            NapiError::EscapeCalledTwice(ref message) => {
-                write!(formatter, "({})", message)
+            NapiError::InvalidArg(ref payload) |
+            NapiError::ObjectExpected(ref payload) |
+            NapiError::StringExpected(ref payload) |
+            NapiError::NameExpected(ref payload) |
+            NapiError::FunctionExpected(ref payload) |
+            NapiError::NumberExpected(ref payload) |
+            NapiError::BooleanExpected(ref payload) |
+            NapiError::ArrayExpected(ref payload) |
+            NapiError::GenericFailure(ref payload) |
+            NapiError::PendingException(ref payload) |
+            NapiError::Cancelled(ref payload) |
+            NapiError::EscapeCalledTwice(ref payload) => {
+                write!(formatter, "({})", &payload.message).and_then(
+                    |result| {
+                        if payload.exception.is_some() {
+                            write!(formatter, ", JavaScript exception attached")
+                        } else {
+                            Ok(result)
+                        }
+                    },
+                )
             }
         }
     }
 }
 
 impl NapiError {
-    pub fn new(status: napi_status, message: String) -> Self {
+    pub fn new(
+        status: napi_status,
+        message: String,
+        exception: Option<napi_value>,
+    ) -> Self {
+        let payload = NapiErrorData { message, exception };
+
         match status {
-            napi_status::napi_invalid_arg => NapiError::InvalidArg(message),
+            napi_status::napi_invalid_arg => NapiError::InvalidArg(payload),
             napi_status::napi_object_expected => NapiError::ObjectExpected(
-                message,
+                payload,
             ),
             napi_status::napi_string_expected => NapiError::StringExpected(
-                message,
+                payload,
             ),
-            napi_status::napi_name_expected => NapiError::NameExpected(message),
+            napi_status::napi_name_expected => NapiError::NameExpected(payload),
             napi_status::napi_function_expected => {
-                NapiError::FunctionExpected(message)
+                NapiError::FunctionExpected(payload)
             }
             napi_status::napi_number_expected => NapiError::NumberExpected(
-                message,
+                payload,
             ),
             napi_status::napi_boolean_expected => NapiError::BooleanExpected(
-                message,
+                payload,
             ),
             napi_status::napi_array_expected => NapiError::ArrayExpected(
-                message,
+                payload,
             ),
             napi_status::napi_generic_failure => NapiError::GenericFailure(
-                message,
+                payload,
             ),
             napi_status::napi_pending_exception => {
-                NapiError::PendingException(message)
+                NapiError::PendingException(payload)
             }
-            napi_status::napi_cancelled => NapiError::Cancelled(message),
+            napi_status::napi_cancelled => NapiError::Cancelled(payload),
             napi_status::napi_escape_called_twice => {
-                NapiError::EscapeCalledTwice(message)
+                NapiError::EscapeCalledTwice(payload)
             }
             _ => {
                 // Both situations should never happen, so just panic.

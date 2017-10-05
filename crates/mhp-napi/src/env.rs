@@ -2,7 +2,7 @@ use std::ffi::CStr;
 use std::mem;
 
 use sys;
-use result::NapiError;
+use result::{NapiError, NapiResult};
 
 #[derive(Clone)]
 pub struct NapiEnv {
@@ -16,9 +16,9 @@ impl From<sys::napi_env> for NapiEnv {
 }
 
 impl NapiEnv {
-    fn decode_error(&self, status: sys::napi_status) -> Option<NapiError> {
+    pub fn handle_status(&self, status: sys::napi_status) -> NapiResult<()> {
         if status == sys::napi_status::napi_ok {
-            return None;
+            return Ok(());
         }
 
         let mut error_message = String::new();
@@ -36,6 +36,43 @@ impl NapiEnv {
             }
         }
 
-        Some(NapiError::new(status, error_message))
+        let exception = self.get_pending_exception_for_status(status);
+
+        Err(NapiError::new(status, error_message, exception))
+    }
+
+    fn get_pending_exception_for_status(
+        &self,
+        status: sys::napi_status,
+    ) -> Option<sys::napi_value> {
+        let mut is_exception_pending = true;
+
+        if status != sys::napi_status::napi_pending_exception {
+            unsafe {
+                sys::napi_is_exception_pending(
+                    self.env,
+                    &mut is_exception_pending,
+                );
+            }
+        }
+
+        if is_exception_pending {
+            unsafe {
+                let mut exception: sys::napi_value = mem::uninitialized();
+
+                sys::napi_get_and_clear_last_exception(
+                    self.env,
+                    &mut exception,
+                );
+
+                if exception.is_null() {
+                    None
+                } else {
+                    Some(exception)
+                }
+            }
+        } else {
+            None
+        }
     }
 }
