@@ -61,7 +61,7 @@ impl NapiEnv {
         }
 
         unsafe {
-            let mut exception: sys::napi_value = mem::uninitialized();
+            let mut exception = mem::uninitialized();
             sys::napi_get_and_clear_last_exception(self.env, &mut exception);
 
             if exception.is_null() {
