@@ -107,26 +107,25 @@ Channel Preamble
 +-----------------------------+------+
 | Field                       | Bits |
 +=============================+======+
-| ``Id``                      | 30   |
+| ``Id``                      | 32   |
 +-----------------------------+------+
-| ``Initiator``               | 1    |
-+-----------------------------+------+
-| ``Type``                    | 1    |
+| ``Type``                    | 8    |
 +-----------------------------+------+
 | ``Compression``             | 8    |
 +-----------------------------+------+
-| ``MessagePreambleReserved`` | 12   |
-+-----------------------------+------+
-| ``Reserved``                | 12   |
+| ``MessagePreambleReserved`` | 16   |
 +-----------------------------+------+
 
-+-------------+
-| Initiator   |
-+===+=========+
-| 0 | Client  |
-+---+---------+
-| 1 | Server  |
-+---+---------+
+To avoid collisions because of unsynchronized channel counters on the sides of
+a connection, the most significant bit of the ``Id`` field is masked to be
+always equal to 0 for channels initiated by clients and 1 for channels
+initiated by servers by making the field an signed integer, two's complement.
+In other words, the valid values of the ``Id`` field of client-initiated
+channels are :math:`{[0, 2^{31} - 1]}` and the valid values of the ``Id`` field
+of server-initiated channels are :math:`{[{-2^{31}}, -1]}`.  The ``Id`` value
+MUST be unique throughout the currently active channels.
+
+The ``Type`` field MUST be equal to one of the following values:
 
 +-------------+
 | Type        |
@@ -136,42 +135,58 @@ Channel Preamble
 | 1 | Stream  |
 +---+---------+
 
+If ``Type`` is ``0``, then the chunk is a `Message Preamble`_.
+
+The ``Compression`` field indicates if the payload of subsequent `data
+chunks`__ in this channel is compressed.  The field MUST be set to one of the
+following values:
+
++----------------------+
+| Compression          |
++===+==================+
+| 0 | No compression   |
++---+------------------+
+| 1 | Gzip compression |
++---+------------------+
+
+__ `Data Chunk`_
+
 Message Preamble
 ^^^^^^^^^^^^^^^^
+
+See `Channel Preamble`_.
 
 +-----------------------------+------+
 | Field                       | Bits |
 +=============================+======+
-| ``Id``                      | 30   |
+| ``Id``                      | 32   |
 +-----------------------------+------+
-| ``Initiator``               | 1    |
-+-----------------------------+------+
-| ``ChannelType``             | 1    |
+| ``ChannelType``             | 8    |
 +-----------------------------+------+
 | ``Compression``             | 8    |
 +-----------------------------+------+
-| ``Encoding``                | 6    |
+| ``Encoding``                | 8    |
 +-----------------------------+------+
-| ``MessageType``             | 6    |
-+-----------------------------+------+
-| ``Reserved``                | 12   |
+| ``MessageType``             | 8    |
 +-----------------------------+------+
 
-+-------------+
-| Initiator   |
-+===+=========+
-| 0 | Client  |
-+---+---------+
-| 1 | Server  |
-+---+---------+
+This chunk type extends the generic `Channel Preamble`_, adding two new fields
+instead of the ``MessagePreambleReserved`` field, namely, ``Encoding`` and
+``MessageType``.
 
-+-------------+
-| ChannelType |
-+===+=========+
-| 0 | Message |
-+---+---------+
-| 1 | Stream  |
-+---+---------+
+The ``Encoding`` field specifies the format used to encode the payload fields
+of messages that require passing arbitrary data (e.g., arguments of RPC methods
+in ``Call`` messages).  It MUST be set to one of the following values:
+
++----------+
+| Encoding |
++===+======+
+| 0 | JSTP |
++---+------+
+| 1 | JSON |
++---+------+
+
+The ``MessageType`` field MUST be set to one of the following values:
 
 +----+------------------------+
 | MessageType                 |
@@ -201,26 +216,29 @@ Data Chunk
 +-----------------------------+------+
 | Field                       | Bits |
 +=============================+======+
-| ``ChannelId``               | 30   |
-+-----------------------------+------+
-| ``ChannelInitiator``        | 1    |
-+-----------------------------+------+
-| ``More``                    | 1    |
+| ``ChannelId``               | 32   |
 +-----------------------------+------+
 | ``Length``                  | 16   |
 +-----------------------------+------+
-| ``Reserved``                | 16   |
+| ``Flags``                   | 16   |
 +-----------------------------+------+
 | ``Payload``                        |
 +------------------------------------+
 
-+------------------+
-| ChannelInitiator |
-+===+==============+
-| 0 | Client       |
-+---+--------------+
-| 1 | Server       |
-+---+--------------+
+The ``ChannelId`` field specifies a channel the chunk belongs to.  The
+``Length`` field contains the size of the payload in bytes.  The ``Flags``
+field has the following structure:
+
++-----------------------+
+| Flags                 |
++============+==========+
+| Bits 31--1 | Reserved |
++------------+----------+
+| Bit 0      | ``More`` |
++------------+----------+
+
+Flag ``More`` specifies if the channel has more chunks.  Reserved flags MUST be
+set to ``0``.
 
 .. _TCP: https://tools.ietf.org/html/rfc793
 .. _TLS: https://tools.ietf.org/html/rfc5246
