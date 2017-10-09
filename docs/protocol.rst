@@ -96,6 +96,11 @@ Protocol Handshake
 Currently, the only possible value of ``Encryption`` is ``0`` and the payload
 is empty.
 
+When new possible values of ``Encryption`` are added, they may require adding
+new handshake chunks to implement, e.g., key exchange.  When ``Encryption`` is
+``0``, no additional data is required for the protocol handshake, and |MHP|
+sessions may be opened or restored over the connection immediately.
+
 Channel Preamble
 ^^^^^^^^^^^^^^^^
 
