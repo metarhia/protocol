@@ -55,6 +55,12 @@ lifetime (up to existing as long as the connection exists) and indefinite
 number of chunks, which may be processed by an application one by one
 immediately after they become available.
 
+**Session** is a persistent association between applications on both sides of a
+connection.  Sessions may be anonymous and authenticated.  If a connection is
+lost because of network failure, its sessions can be restored after
+reconnection, either all of them or only those a client wants to.  Channels are
+bound to corresponding sessions.
+
 **RPC** is an acronym for remote procedure calls.
 
 **AEAD** is an acronym for Authenticated Encryption with Associated Data.
