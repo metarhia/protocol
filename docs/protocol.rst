@@ -98,10 +98,15 @@ Protocol Handshake
 +-----------------------------+------+
 | Field                       | Bits |
 +=============================+======+
+| ``Version``                 | 16   |
++-----------------------------+------+
 | ``Encryption``              | 16   |
 +-----------------------------+------+
 | ``Payload``                        |
 +------------------------------------+
+
+``Version`` field indicates the version of the protocol to use.  This document
+describes |MHP| version ``1``.
 
 Currently, the only possible value of ``Encryption`` is ``0`` and the payload
 is empty.
