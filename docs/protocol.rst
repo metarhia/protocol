@@ -232,7 +232,7 @@ field has the following structure:
 +-----------------------+
 | Flags                 |
 +============+==========+
-| Bits 31--1 | Reserved |
+| Bits 15--1 | Reserved |
 +------------+----------+
 | Bit 0      | ``More`` |
 +------------+----------+
