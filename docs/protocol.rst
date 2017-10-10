@@ -188,7 +188,7 @@ in ``Call`` messages).  It MUST be set to one of the following values:
 
 The ``MessageType`` field MUST be set to one of the following values:
 
-+----+------------------------+
++-----------------------------+
 | MessageType                 |
 +====+========================+
 | 0  | ``HandshakeRequest``   |
