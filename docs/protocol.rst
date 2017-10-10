@@ -88,6 +88,10 @@ MAY support other transports, if their implementors find it reasonable.
 Chunk Formats
 -------------
 
+.. note::
+
+   |MHP| uses little-endian byte order.
+
 Protocol Handshake
 ^^^^^^^^^^^^^^^^^^
 
