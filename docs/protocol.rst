@@ -85,6 +85,48 @@ transports, and MAY support them otherwise.  In other words, at least one of
 supported, with preference towards TCP and TLS.  Client-side implementations
 MAY support other transports, if their implementors find it reasonable.
 
+Connection States
+-----------------
+
+``AWAITING_HANDSHAKE``
+^^^^^^^^^^^^^^^^^^^^^^
+
+A transport connection has opened, but handshake hasn't been performed
+and there is no session established.
+
+A client sends a `Protocol Handshake`_ chunk.  When the handshake is
+performed successfully, the connection transitions into `AWAITING_SESSION`_
+state.
+
+A server waits a `Protocol Handshake`_ chunk from the client.  When the
+handshake is performed successfully, the connection transitions into
+`AWAITING_SESSION`_ state.
+
+``AWAITING_SESSION``
+^^^^^^^^^^^^^^^^^^^^
+
+The client sends a `Session Establishment Request`_ chunk.  The server responds
+either with a `New Session Establishment Response`_ chunk, or, in the case when
+an existing session is being restored, with a Ping chunk, to which the client
+responds with a Pong chunk, and both sides re-send all the chunks they did not
+receive.  After that, both connections transition into `NORMAL`_ state.
+
+``NORMAL``
+^^^^^^^^^^
+
+This is the main mode of operation.  All the communication is performed using
+channels and ping/pong chunks.  On network error, the connection transitions
+into `NETWORK_CONN_LOST`_ state.
+
+``NETWORK_CONN_LOST``
+^^^^^^^^^^^^^^^^^^^^^
+
+The client buffers all outgoing chunks and tries to reconnect to the server.
+On success, the connection transitions into `AWAITING_HANDSHAKE`_ state.
+
+The server buffers all outgoing chunks and awaits a new connection from the
+client.
+
 Chunk Formats
 -------------
 
