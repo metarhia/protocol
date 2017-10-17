@@ -116,6 +116,32 @@ new handshake chunks to implement, e.g., key exchange.  When ``Encryption`` is
 ``0``, no additional data is required for the protocol handshake, and |MHP|
 sessions may be opened or restored over the connection immediately.
 
+Session Establishment Request
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++-----------------------------+------+
+| Field                       | Bits |
++=============================+======+
+| ``Token``                   | 256  |
++-----------------------------+------+
+
+``Token`` is a 32-byte session ID and session secret key.  ``0`` is a special
+value reserved to indicate that a new session must be created, instead of
+restoring an existing one.
+
+New Session Establishment Response
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
++-----------------------------+------+
+| Field                       | Bits |
++=============================+======+
+| ``Token``                   | 256  |
++-----------------------------+------+
+
+``Token`` is a 32-byte random string, obtained from a cryptographically secure
+source.  It serves both as a session ID and a session secret key.  ``Token``
+must not be equal to ``0``.
+
 Channel Preamble
 ^^^^^^^^^^^^^^^^
 
