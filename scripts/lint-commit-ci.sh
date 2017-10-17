@@ -3,6 +3,8 @@
 set -e
 set -u
 
+git fetch --unshallow
+
 if [[ $TRAVIS_PULL_REQUEST_SLUG != "" && \
       $TRAVIS_PULL_REQUEST_SLUG != $TRAVIS_REPO_SLUG ]]; then
   git remote add "$TRAVIS_PULL_REQUEST_SLUG" \
