@@ -88,6 +88,28 @@ MAY support other transports, if their implementors find it reasonable.
 Connection States
 -----------------
 
+.. tikz::
+   :libs: arrows, automata
+
+   [->,>=stealth',shorten >=1pt,auto,node distance=2.8cm,semithick]
+
+   \tikzstyle{every state}=[rectangle,rounded corners]
+
+   \node[initial,state] (A)              {AWAITING\_HANDSHAKE};
+   \node[state]         (B) [below of=A] {AWAITING\_SESSION};
+   \node[state]         (C) [below of=B] {NORMAL};
+   \node[state]         (D) [below of=C] {NETWORK\_CONN\_LOST};
+
+   \path (A) edge                 node {Protocol Handshake}                 (B)
+         (B) edge                 node {Session Establishment Request,
+                                        New Session Establishment Response,
+                                        Ping, Pong}                         (C)
+         (C) edge [loop right]    node {Channel Preamble,
+                                        Data Chunk,
+                                        Ping, Pong}                         (C)
+         (C) edge                 node {Network Error}                      (D)
+         (D) edge [bend left=60]  node {Reconnect}                          (A);
+
 ``AWAITING_HANDSHAKE``
 ^^^^^^^^^^^^^^^^^^^^^^
 

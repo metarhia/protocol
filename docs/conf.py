@@ -32,6 +32,7 @@
 # ones.
 extensions = [
     'sphinx.ext.mathjax',
+    'sphinxcontrib.tikz',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -171,5 +172,6 @@ texinfo_documents = [
      'Miscellaneous'),
 ]
 
+# -- TikZ options ---------------------------------------------------------
 
-
+tikz_proc_suite = 'GhostScript'
