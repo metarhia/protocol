@@ -149,6 +149,27 @@ On success, the connection transitions into `AWAITING_HANDSHAKE`_ state.
 The server buffers all outgoing chunks and awaits a new connection from the
 client.
 
+Chunk Types
+-----------
+
+Each chunk transmitted in `NORMAL`_ connection state starts with a 1-octet
+field indicating the chunk type.  This value MUST be equal to one of the
+following:
+
++-----------------------------+-------+
+| Name                        | Value |
++=============================+=======+
+| ``PING``                    | 0     |
++-----------------------------+-------+
+| ``PONG``                    | 1     |
++-----------------------------+-------+
+| ``MESSAGE_PREAMBLE``        | 2     |
++-----------------------------+-------+
+| ``STREAM_PREAMBLE``         | 3     |
++-----------------------------+-------+
+| ``DATA_CHUNK``              | 4     |
++-----------------------------+-------+
+
 Chunk Formats
 -------------
 
@@ -209,38 +230,38 @@ must not be equal to ``0``.
 Channel Preamble
 ^^^^^^^^^^^^^^^^
 
+This is an abstract channel preamble, that is, in practice, represented by
+`Message Preamble`_ and Stream Preamble.  ``Id`` and ``Compression`` are
+generic channel preamble fields, pertaining to both of them.  Stream Preamble
+doesn't have any additional fields, so this structure effectively describes it.
+`Message Preamble`_, however, has additional fields that occupy the place of
+``MessagePreambleReserved`` in the following table.
+
+``ChunkType`` of `Message Preamble`_ equals to ``MESSAGE_PREAMBLE``, and
+``ChunkType`` of Stream Preamble equals to ``STREAM_PREAMBLE`` (see `Chunk
+Types`_).
+
 +-----------------------------+------+
 | Field                       | Bits |
 +=============================+======+
-| ``Id``                      | 32   |
+| ``ChunkType``               | 8    |
 +-----------------------------+------+
-| ``Type``                    | 8    |
+| ``Id``                      | 32   |
 +-----------------------------+------+
 | ``Compression``             | 8    |
 +-----------------------------+------+
 | ``MessagePreambleReserved`` | 16   |
 +-----------------------------+------+
 
-To avoid collisions because of unsynchronized channel counters on the sides of
-a connection, the most significant bit of the ``Id`` field is masked to be
-always equal to 0 for channels initiated by clients and 1 for channels
-initiated by servers by making the field an signed integer, two's complement.
-In other words, the valid values of the ``Id`` field of client-initiated
-channels are :math:`{[0, 2^{31} - 1]}` and the valid values of the ``Id`` field
-of server-initiated channels are :math:`{[{-2^{31}}, -1]}`.  The ``Id`` value
-MUST be unique throughout the currently active channels.
-
-The ``Type`` field MUST be equal to one of the following values:
-
-+-------------+
-| Type        |
-+===+=========+
-| 0 | Message |
-+---+---------+
-| 1 | Stream  |
-+---+---------+
-
-If ``Type`` is ``0``, then the chunk is a `Message Preamble`_.
+``Id`` field is an identifier of the channel in the connection.  To avoid
+collisions because of unsynchronized channel counters on the sides of a
+connection, the most significant bit of the ``Id`` field is masked to be always
+equal to 0 for channels initiated by clients and 1 for channels initiated by
+servers by making the field an signed integer, two's complement.  In other
+words, the valid values of the ``Id`` field of client-initiated channels are
+:math:`{[0, 2^{31} - 1]}` and the valid values of the ``Id`` field of
+server-initiated channels are :math:`{[{-2^{31}}, -1]}`.  The ``Id`` value MUST
+be unique throughout the currently active channels.
 
 The ``Compression`` field indicates if the payload of subsequent `data
 chunks`__ in this channel is compressed.  The field MUST be set to one of the
@@ -256,6 +277,8 @@ following values:
 
 __ `Data Chunk`_
 
+If ``ChunkType`` is ``MESSAGE_PREAMBLE``, then the chunk is a `Message Preamble`_.
+
 Message Preamble
 ^^^^^^^^^^^^^^^^
 
@@ -264,9 +287,9 @@ See `Channel Preamble`_.
 +-----------------------------+------+
 | Field                       | Bits |
 +=============================+======+
-| ``Id``                      | 32   |
+| ``ChunkType``               | 8    |
 +-----------------------------+------+
-| ``ChannelType``             | 8    |
+| ``Id``                      | 32   |
 +-----------------------------+------+
 | ``Compression``             | 8    |
 +-----------------------------+------+
@@ -321,26 +344,30 @@ Data Chunk
 +-----------------------------+------+
 | Field                       | Bits |
 +=============================+======+
+| ``ChunkType``               | 8    |
++-----------------------------+------+
 | ``ChannelId``               | 32   |
 +-----------------------------+------+
 | ``Length``                  | 16   |
 +-----------------------------+------+
-| ``Flags``                   | 16   |
+| ``Flags``                   | 8    |
 +-----------------------------+------+
 | ``Payload``                        |
 +------------------------------------+
+
+``ChunkType`` of a data chunk is ``DATA_CHUNK`` (see `Chunk Types`_).
 
 The ``ChannelId`` field specifies a channel the chunk belongs to.  The
 ``Length`` field contains the size of the payload in bytes.  The ``Flags``
 field has the following structure:
 
-+-----------------------+
-| Flags                 |
-+============+==========+
-| Bits 15--1 | Reserved |
-+------------+----------+
-| Bit 0      | ``More`` |
-+------------+----------+
++----------------------+
+| Flags                |
++===========+==========+
+| Bits 7--1 | Reserved |
++-----------+----------+
+| Bit 0     | ``More`` |
++-----------+----------+
 
 Flag ``More`` specifies if the channel has more chunks.  Reserved flags MUST be
 set to ``0``.
