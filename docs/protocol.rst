@@ -35,7 +35,9 @@ connection transmits data.
 adjectives) refers to an abstraction over an instance of transport connection
 managed by a |MHP| implementation, that hides implementation details of the
 transport and provides the functionality of |MHP| to user applications.  |MHP|
-connections and transport connections have one-to-one correspondence.
+connections have one-to-one correspondence to their primary transport
+connections used for RPC, but may open additional ones internally for specific
+purposes.
 
 **Chunk** refers to a data unit of |MHP| consisting of headers and optional
 payload.  All data transmitted via |MHP| are split into chunks.
