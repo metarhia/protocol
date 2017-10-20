@@ -377,10 +377,6 @@ The ``MessageType`` field MUST be set to one of the following values:
 +----+------------------------+
 | 6  | ``InspectCallback``    |
 +----+------------------------+
-| 7  | ``Ping``               |
-+----+------------------------+
-| 8  | ``Pong``               |
-+----+------------------------+
 
 Data Chunk
 ^^^^^^^^^^
