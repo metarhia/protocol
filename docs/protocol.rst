@@ -105,7 +105,7 @@ Connection States
    \path (A) edge                 node {Protocol Handshake}                 (B)
          (B) edge                 node {Session Establishment Request,
                                         New Session Establishment Response,
-                                        Ping, Pong}                         (C)
+                                        State Synchronization}              (C)
          (C) edge [loop right]    node {Channel Preamble,
                                         Data Chunk,
                                         Ping, Pong}                         (C)
@@ -131,9 +131,10 @@ handshake is performed successfully, the connection transitions into
 
 The client sends a `Session Establishment Request`_ chunk.  The server responds
 either with a `New Session Establishment Response`_ chunk, or, in the case when
-an existing session is being restored, with a Ping chunk, to which the client
-responds with a Pong chunk, and both sides re-send all the chunks they did not
-receive.  After that, both connections transition into `NORMAL`_ state.
+an existing session is being restored, with a `State Synchronization`_ chunk,
+to which the client responds with a `State Synchronization`_ chunk too, and
+both sides re-send all the chunks they did not receive.  After that, both
+connections transition into `NORMAL`_ state.
 
 ``NORMAL``
 ^^^^^^^^^^
@@ -229,6 +230,21 @@ New Session Establishment Response
 source.  It serves both as a session ID and a session secret key.  ``Token``
 must not be equal to ``0``.
 
+State Synchronization
+^^^^^^^^^^^^^^^^^^^^^
+
++-----------------------------+------+
+| Field                       | Bits |
++=============================+======+
+| ``LastPingId``              | 32   |
++-----------------------------+------+
+| ``ChunksCount``             | 32   |
++-----------------------------+------+
+
+``LastPingId`` is an ID of the last ping chunk that a sending side has
+received, and ``ChunksCount`` is the number of chunks the side has received
+since then.
+
 Ping
 ^^^^
 
@@ -237,7 +253,7 @@ Ping
 +=============================+======+
 | ``ChunkType``               | 8    |
 +-----------------------------+------+
-| ``PingId``                  | 24   |
+| ``PingId``                  | 32   |
 +-----------------------------+------+
 
 ``ChunkType`` of Ping chunks is ``PING`` (see `Chunk Types`_).
@@ -250,7 +266,7 @@ Pong
 +=============================+======+
 | ``ChunkType``               | 8    |
 +-----------------------------+------+
-| ``PingId``                  | 24   |
+| ``PingId``                  | 32   |
 +-----------------------------+------+
 
 ``ChunkType`` of Pong chunks is ``PONG`` (see `Chunk Types`_).
