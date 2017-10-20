@@ -229,6 +229,32 @@ New Session Establishment Response
 source.  It serves both as a session ID and a session secret key.  ``Token``
 must not be equal to ``0``.
 
+Ping
+^^^^
+
++-----------------------------+------+
+| Field                       | Bits |
++=============================+======+
+| ``ChunkType``               | 8    |
++-----------------------------+------+
+| ``PingId``                  | 24   |
++-----------------------------+------+
+
+``ChunkType`` of Ping chunks is ``PING`` (see `Chunk Types`_).
+
+Pong
+^^^^
+
++-----------------------------+------+
+| Field                       | Bits |
++=============================+======+
+| ``ChunkType``               | 8    |
++-----------------------------+------+
+| ``PingId``                  | 24   |
++-----------------------------+------+
+
+``ChunkType`` of Pong chunks is ``PONG`` (see `Chunk Types`_).
+
 Channel Preamble
 ^^^^^^^^^^^^^^^^
 
