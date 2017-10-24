@@ -297,6 +297,8 @@ Types`_).
 +-----------------------------+------+
 | ``MessagePreambleReserved`` | 16   |
 +-----------------------------+------+
+| ``SessionId``               | 64   |
++-----------------------------+------+
 
 ``Id`` field is an identifier of the channel in the connection.  To avoid
 collisions because of unsynchronized channel counters on the sides of a
@@ -322,6 +324,9 @@ following values:
 
 __ `Data Chunk`_
 
+``SessionId`` is an identifier of the session to open a channel in.  It is
+obtained during application handshake as a part of ``HandshakeResponse``.
+
 If ``ChunkType`` is ``MESSAGE_PREAMBLE``, then the chunk is a `Message Preamble`_.
 
 Message Preamble
@@ -341,6 +346,8 @@ See `Channel Preamble`_.
 | ``Encoding``                | 8    |
 +-----------------------------+------+
 | ``MessageType``             | 8    |
++-----------------------------+------+
+| ``SessionId``               | 64   |
 +-----------------------------+------+
 
 This chunk type extends the generic `Channel Preamble`_, adding two new fields
