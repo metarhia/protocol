@@ -58,10 +58,12 @@ number of chunks, which may be processed by an application one by one
 immediately after they become available.
 
 **Session** is a persistent association between applications on both sides of a
-connection.  Sessions may be anonymous and authenticated.  If a connection is
-lost because of network failure, its sessions can be restored after
-reconnection, either all of them or only those a client wants to.  Channels are
-bound to corresponding sessions.
+connection.  Sessions may be anonymous and authenticated.  Channels are bound
+to corresponding sessions.
+
+**Tunnel** refers to the set of sessions and channels that belong to a
+connection.  On network failure, the tunnel can be restored transparently for
+an application.
 
 **RPC** is an acronym for remote procedure calls.
 
@@ -98,13 +100,13 @@ Connection States
    \tikzstyle{every state}=[rectangle,rounded corners]
 
    \node[initial,state] (A)              {AWAITING\_HANDSHAKE};
-   \node[state]         (B) [below of=A] {AWAITING\_SESSION};
+   \node[state]         (B) [below of=A] {AWAITING\_TUNNEL};
    \node[state]         (C) [below of=B] {NORMAL};
    \node[state]         (D) [below of=C] {NETWORK\_CONN\_LOST};
 
    \path (A) edge                 node {Protocol Handshake}                 (B)
-         (B) edge                 node {Session Establishment Request,
-                                        New Session Establishment Response,
+         (B) edge                 node {Open Tunnel,
+                                        New Tunnel,
                                         State Synchronization}              (C)
          (C) edge [loop right]    node {Channel Preamble,
                                         Data Chunk,
@@ -118,23 +120,22 @@ Connection States
 A transport connection has opened, but handshake hasn't been performed
 and there is no session established.
 
-A client sends a `Protocol Handshake`_ chunk.  When the handshake is
-performed successfully, the connection transitions into `AWAITING_SESSION`_
-state.
+A client sends a `Protocol Handshake`_ chunk.  When the handshake is performed
+successfully, the connection transitions into `AWAITING_TUNNEL`_ state.
 
 A server waits a `Protocol Handshake`_ chunk from the client.  When the
 handshake is performed successfully, the connection transitions into
-`AWAITING_SESSION`_ state.
+`AWAITING_TUNNEL`_ state.
 
-``AWAITING_SESSION``
+``AWAITING_TUNNEL``
 ^^^^^^^^^^^^^^^^^^^^
 
-The client sends a `Session Establishment Request`_ chunk.  The server responds
-either with a `New Session Establishment Response`_ chunk, or, in the case when
-an existing session is being restored, with a `State Synchronization`_ chunk,
-to which the client responds with a `State Synchronization`_ chunk too, and
-both sides re-send all the chunks they did not receive.  After that, both
-connections transition into `NORMAL`_ state.
+The client sends a `Open Tunnel`_ chunk.  The server responds either with a
+`New Tunnel`_ chunk, or, in the case when an existing session is being
+restored, with a `State Synchronization`_ chunk, to which the client responds
+with a `State Synchronization`_ chunk too, and both sides re-send all the
+chunks they did not receive.  After that, both connections transition into
+`NORMAL`_ state.
 
 ``NORMAL``
 ^^^^^^^^^^
@@ -204,8 +205,8 @@ new handshake chunks to implement, e.g., key exchange.  When ``Encryption`` is
 ``0``, no additional data is required for the protocol handshake, and |MHP|
 sessions may be opened or restored over the connection immediately.
 
-Session Establishment Request
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Open Tunnel
+^^^^^^^^^^^
 
 +-----------------------------+------+
 | Field                       | Bits |
@@ -213,12 +214,12 @@ Session Establishment Request
 | ``Token``                   | 256  |
 +-----------------------------+------+
 
-``Token`` is a 32-byte session ID and session secret key.  ``0`` is a special
-value reserved to indicate that a new session must be created, instead of
+``Token`` is a 32-byte tunnel ID and tunnel secret key.  ``0`` is a special
+value reserved to indicate that a new tunnel must be created, instead of
 restoring an existing one.
 
-New Session Establishment Response
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+New Tunnel
+^^^^^^^^^^
 
 +-----------------------------+------+
 | Field                       | Bits |
@@ -227,8 +228,8 @@ New Session Establishment Response
 +-----------------------------+------+
 
 ``Token`` is a 32-byte random string, obtained from a cryptographically secure
-source.  It serves both as a session ID and a session secret key.  ``Token``
-must not be equal to ``0``.
+source.  It serves both as a tunnel ID and a tunnel secret key.  ``Token`` must
+not be equal to ``0``.
 
 State Synchronization
 ^^^^^^^^^^^^^^^^^^^^^
@@ -460,9 +461,9 @@ messages, provided that nonces are never reused.
 Symmetric Encryption Implementation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Upon creation of a ``Session`` structure instance, the following fields
-relevant to the symmetric encryption facilities (with one of them not being
-limited to this scope only) are initialized:
+Upon creation of a ``Tunnel`` structure instance, the following fields relevant
+to the symmetric encryption facilities (with one of them not being limited to
+this scope only) are initialized:
 
 - ``secret`` — a 32-byte unsigned integer value
 - ``nonce`` — a 12-byte unsigned integer value
@@ -470,18 +471,18 @@ limited to this scope only) are initialized:
 ``nonce`` value MUST be initialized with random data from a cryptographically
 secure source.
 
-If the ``Session`` structure is created on the side of a client, the least
-significant bit of ``nonce`` MUST be set to 0.  If the ``Session`` structure is
+If the ``Tunnel`` structure is created on the side of a client, the least
+significant bit of ``nonce`` MUST be set to 0.  If the ``Tunnel`` structure is
 created on the side of a server, the least significant bit of ``nonce`` MUST be
 set to 1.
 
-If the ``Session`` structure is created on the side of a server, ``secret``
+If the ``Tunnel`` structure is created on the side of a server, ``secret``
 value MUST be initialized with random data from a cryptographically secure
 source.
 
 The server shares this value with the client during the handshake, as described
 in section ???.  When the client receives this value, it MUST initialize the
-``secret`` field of its ``Session`` structure with the received value.
+``secret`` field of its ``Tunnel`` structure with the received value.
 
 .. DANGER::
 
@@ -495,18 +496,18 @@ in section ???.  When the client receives this value, it MUST initialize the
 When symmetric encryption of a chunk is requested, |MHP| implementations MUST
 follow the next algorithm:
 
-1. **Let** *secret* := **Get** *secret* from *Session*.
-2. **Let** *nonce* := **Get** *nonce* from *Session*.
+1. **Let** *secret* := **Get** *secret* from *Tunnel*.
+2. **Let** *nonce* := **Get** *nonce* from *Tunnel*.
 3. **Let** *data* := **Input**.
 4. **Let** *result* := AEAD\_ChaCha20\_Poly1305\_IETF\_Encrypt(*data*, *secret*,
    *nonce*).
-5. **Set** *nonce* in *Session* := *nonce* + 2.
+5. **Set** *nonce* in *Tunnel* := *nonce* + 2.
 6. **Output** := *result*.
 
 When symmetric decryption of a chunk is requested, |MHP| implementations MUST
 follow the next algorithm:
 
-1. **Let** *secret* := **Get** *secret* from *Session*.
+1. **Let** *secret* := **Get** *secret* from *Tunnel*.
 2. **Let** *data* := **Input**.
 3. **Let** *result* := AEAD\_ChaCha20\_Poly1305\_IETF\_Decrypt(*data*,
    *secret*).
