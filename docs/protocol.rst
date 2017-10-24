@@ -130,7 +130,7 @@ handshake is performed successfully, the connection transitions into
 ``AWAITING_TUNNEL``
 ^^^^^^^^^^^^^^^^^^^^
 
-The client sends a `Open Tunnel`_ chunk.  The server responds either with a
+The client sends an `Open Tunnel`_ chunk.  The server responds either with a
 `New Tunnel`_ chunk, or, in the case when an existing session is being
 restored, with a `State Synchronization`_ chunk, to which the client responds
 with a `State Synchronization`_ chunk too, and both sides re-send all the
