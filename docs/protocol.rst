@@ -7,10 +7,10 @@ Introduction
 ------------
 
 |MHP| is an RPC, session and binary data transfer protocol that provides
-two-way asynchronous data transfer, multiplexing several RPC channels, event
-streams and binary data transmissions over one socket, and graceful handling of
-short-time connection losses due to network errors with full and transparent
-session restoration.  It also provides authentication mechanisms, offers data
+two-way asynchronous data transfer, multiplexing applications, channels, event
+and binary streams over one socket, and graceful handling of short-time
+connection losses due to network errors with full and transparent session
+restoration.  It also provides authentication mechanisms, offers data
 compression and supports multiple serialization formats with each of those
 being more appropriate or efficient for different kinds of data.
 
@@ -50,7 +50,7 @@ capabilities for connections.
 **Message** refers to a channel that is characterized by a short lifetime and
 small number of chunks (only one chunk in most cases, with the maximal amount
 specified in section ???) that are buffered in memory until the message is
-received, and then processed as a single unit by an application.
+received, and then processed as a single unit by the protocol.
 
 **Stream** refers to a channel that is characterized by arbitrarily long
 lifetime (up to existing as long as the connection exists) and indefinite
