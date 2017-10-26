@@ -44,13 +44,13 @@ payload.  All data transmitted via |MHP| are split into chunks.
 
 **Channel** refers to a set of chunks transmitted over the same connection,
 identified among other ones using a number that is unique throughout the
-currently active channels connection-wise.  Channel provides multiplexing
+currently active channels connection-wise.  Channels provide multiplexing
 capabilities for connections.
 
 **Message** refers to a channel that is characterized by a short lifetime and
-small number of chunks (only one chunk in most cases, with the maximal length
+small number of chunks (only one chunk in most cases, with the maximal amount
 specified in section ???) that are buffered in memory until the message is
-received, and then processed as a single unit by |MHP|.
+received, and then processed as a single unit by the protocol.
 
 **Stream** refers to a channel that is characterized by arbitrarily long
 lifetime (up to existing as long as the connection exists) and indefinite
