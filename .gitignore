@@ -8,3 +8,7 @@ Thumbs.db
 
 venv/
 docs/_build/
+
+/target/
+**/*.rs.bk
+Cargo.lock
