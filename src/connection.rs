@@ -20,13 +20,13 @@ impl Connection {
         application: Box<Application>,
         remote_api: Box<ClientApplication>,
     ) -> Self {
-        !unimplemented!();
+        unimplemented!();
     }
 
     pub fn handshake(
         &self,
         application: &str,
-        credentials: Box<Value>,
+        credentials: &Box<Value>,
     ) -> Box<Future<Item = Box<Value>, Error = ApplicationError>> {
         unimplemented!();
     }
@@ -57,6 +57,7 @@ impl Connection {
     ) -> Box<Stream<Item = &[u8], Error = ApplicationError>> {
         unimplemented!();
     }
+
     pub fn open_sink(
         &self,
         interface: &str,
@@ -65,19 +66,19 @@ impl Connection {
     }
 
     pub fn start_heartbeat() {
-        !unimplemented!();
+        unimplemented!();
     }
 
     pub fn stop_heartbeat() {
-        !unimplemented!();
+        unimplemented!();
     }
 
     pub fn close() {
-        !unimplemented!();
+        unimplemented!();
     }
 
-    fn callback(&self, args: &[Box<Value])> {
-        !unimplemented!();
+    fn callback(&self, args: &[Box<Value>]) {
+        unimplemented!();
     }
 
     fn ping(&self) {
