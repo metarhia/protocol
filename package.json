@@ -34,7 +34,7 @@
     "@commitlint/cli": "^4.0.0",
     "@commitlint/config-angular": "^4.2.0",
     "eslint": "^4.8.0",
-    "eslint-config-metarhia": "^1.0.1",
+    "eslint-config-metarhia": "^2.0.0",
     "eslint-plugin-import": "^2.7.0",
     "husky": "^0.14.3",
     "remark-cli": "^4.0.0",
