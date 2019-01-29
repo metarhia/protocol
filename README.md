@@ -5,7 +5,7 @@
 [![Documentation Status][readthedocs-badge]][readthedocs-url]
 [![Greenkeeper Status][greenkeeper-badge]][greenkeeper-url]
 
-Metarhia Protocol (``mhp``) is a protocol for RPC, event streams and two-way
+Metarhia Protocol (`mhp`) is a protocol for RPC, event streams and two-way
 asynchronous data transfer that supports multiplexing and is capable of
 handling network errors gracefully.
 
@@ -19,11 +19,11 @@ Check out our documentation at <https://mhp.readthedocs.io>.
 
 ## Contributing
 
-Please adhere to [Conventional Commits][] styleguide for commit messages (`npm
-install` creates a Git hook that lints your commit messages, and they are also
-checked on CI, but please write them properly beforehand so that they don't get
-rejected.  If that happens locally while committing, though, don't worry, your
-commit message isn't lost, you can still find it in `.git/COMMIT_EDITMSG`).
+Please adhere to [Conventional Commits][] styleguide for commit messages
+(`npm install` creates a Git hook that lints your commit messages, and they are
+also checked on CI, but please write them properly beforehand so that they don't
+get rejected. If that happens locally while committing, though, don't worry,
+your commit message isn't lost, you can still find it in `.git/COMMIT_EDITMSG`).
 
 ### Releasing
 
@@ -44,8 +44,8 @@ in Git, and publish it to npm registry.
 
 MIT. See the [LICENSE][] file for details.
 
-[Conventional Commits]: https://conventionalcommits.org
-[LICENSE]: LICENSE
+[conventional commits]: https://conventionalcommits.org
+[license]: LICENSE
 [appveyor-badge]: https://ci.appveyor.com/api/projects/status/wuffvoyxtplk1hvd?svg=true
 [appveyor-url]: https://ci.appveyor.com/project/metarhia/protocol
 [greenkeeper-badge]: https://badges.greenkeeper.io/metarhia/protocol.svg
